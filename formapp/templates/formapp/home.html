@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trapezoid Area Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">Trapezoid Area Calculator</h1>
+        {% if error %}
+            <div class="mt-4 p-3 bg-red-100 text-red-700 rounded-md">
+                {{ error }}
+            </div>
+        {% endif %}
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-gray-700 font-medium">Base 1</label>
+                <input type="number" name="base1" step="any" min="0" required class="mt-1 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium">Base 2</label>
+                <input type="number" name="base2" step="any" min="0" required class="mt-1 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium">Height</label>
+                <input type="number" name="height" step="any" min="0" required class="mt-1 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+                Calculate Area
+            </button>
+        </form>
+
+
+        {% if area %}
+            <div class="mt-6 p-4 bg-green-100 text-green-800 rounded-md">
+                <strong>Area:</strong> {{ area }}
+            </div>
+
+            <a href="{% url 'download_excel' %}?base1={{ request.POST.base1 }}&base2={{ request.POST.base2 }}&height={{ request.POST.height }}"
+            class="block mt-4 text-center bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
+                Download Excel
+            </a>
+        {% endif %}
+        <div class="text-center mt-6">
+            <a href="{% url 'history' %}" class="text-blue-600 underline hover:text-blue-800">View Past Calculations</a>
+        </div>
+    </div>
+
+</body>
+</html>
